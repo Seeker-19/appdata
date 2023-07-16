@@ -7,6 +7,9 @@ const authenticate = require("../middleware/authenticate");
 const cors = require("cors");
 require("../db/conn");
 const User = require("../model/userSchema");
+const cookieParser = require("cookie-parser");
+
+app.use(cookieParser());
 
 //using promises
 
@@ -116,7 +119,7 @@ router.post("/signin", async (req, res) => {
       const token = await userLogin.generateAuthToken();
       console.log(token);
 
-      res.cookie("jwtken", token, {
+      res.cookie("jwtoken", token, {
         expires: new Date(Date.now() + 25892000000),
         httpOnly: true,
       });

@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import loginpic from "../components/images/login.jpg";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const history = useNavigate();
@@ -10,7 +11,7 @@ const Login = () => {
   const loginUser = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("/signin", {
+    /* const res = await fetch("/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -19,16 +20,31 @@ const Login = () => {
         email,
         password,
       }),
-    });
+    });*/
 
-    const data = res.json();
+    axios({
+      url: "http://localhost:7000/signin",
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      data: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then((res) => {
+        //const data = res.data;
+        //console.log(res.response.status);
 
-    if (res.status === 400 || !data) {
-      window.alert("Invalid Credentials");
-    } else {
-      window.alert("Login Succesful");
-      history("/");
-    }
+        if (res.response.status === 400) {
+          window.alert("Invalid Credentials");
+        } else {
+          window.alert("Login Succesful");
+          history("/");
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (

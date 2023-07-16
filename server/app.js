@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 const express = require("express");
-import cors from "cors";
+const cors = require("cors");
 const app = express();
 
 dotenv.config({ path: "./config.env" });
@@ -32,7 +32,7 @@ const PORT = process.env.PORT;
 });
 */
 app.get("/contact", (req, res) => {
-  //res.cookie("Test","thapa");
+  //res.cookie("Test", "thapa");
   res.send("Hello Contact world from the server .");
 });
 

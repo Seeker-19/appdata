@@ -1,27 +1,39 @@
 import React, { useEffect } from "react";
 import anuragpic from "./images/anurag.jpg";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const About = () => {
   const history = useNavigate();
   const callAboutPage = async () => {
     try {
-      const res = await fetch("/about", {
+      /*&const res = await fetch("/about", {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
         credentials: "include",
-      });
+      });*/
+      axios({
+        url: "http://localhost:7000/about",
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+        credentials: "include",
+      })
+        .then((res) => {
+          const data = res.data;
+          console.log(data);
+          //console.log(res.response.status);
 
-      const data = await res.json();
-      console.log(data);
-
-      if (!res.status === 200) {
-        const error = new Error(res.error);
-        throw error;
-      }
+          if (!res.status === 200) {
+            const error = new Error(res.error);
+            throw error;
+          }
+        })
+        .catch((err) => console.log(err));
     } catch (err) {
       console.log(err);
       history("/login");

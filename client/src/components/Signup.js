@@ -60,9 +60,10 @@ const Signup = () => {
       }),
     })
       .then((res) => {
-        const data = res.json();
+        //const data = res.data;
+        console.log(res.status);
 
-        if (data.status === 422 || !data) {
+        if (res.status != 201) {
           window.alert("Invalid Registration");
           console.log("Invalid Registration");
         } else {
