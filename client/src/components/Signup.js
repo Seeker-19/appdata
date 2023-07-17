@@ -61,19 +61,21 @@ const Signup = () => {
     })
       .then((res) => {
         //const data = res.data;
-        console.log(res.status);
+        //console.log(res.status);
 
-        if (res.status != 201) {
+        window.alert("Registration Successful");
+        console.log("Registration Successful");
+
+        history("/login");
+      })
+      .catch((err) => {
+        //console.log(err)
+        const status = err.response.status;
+        if (status === 422) {
           window.alert("Invalid Registration");
           console.log("Invalid Registration");
-        } else {
-          window.alert("Registration Successful");
-          console.log("Registration Successful");
-
-          history("/login");
         }
-      })
-      .catch((err) => console.log(err));
+      });
   };
   return (
     /* <div>

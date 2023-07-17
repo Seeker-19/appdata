@@ -37,14 +37,14 @@ const Login = () => {
         //const data = res.data;
         //console.log(res.response.status);
 
-        if (res.response.status === 400) {
-          window.alert("Invalid Credentials");
-        } else {
-          window.alert("Login Succesful");
-          history("/");
-        }
+        window.alert("Login Succesful");
+        history("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+
+        window.alert("Invalid Credentials");
+      });
   };
 
   return (
