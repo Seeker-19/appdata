@@ -32,6 +32,7 @@ const Login = () => {
         email,
         password,
       }),
+      withCredentials: true,
     })
       .then((res) => {
         //const data = res.data;

@@ -9,7 +9,7 @@ require("./db/conn");
 // const User = require("./model/userSchema");
 //we link the router files to make our route easy
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(require("./router/auth"));
 

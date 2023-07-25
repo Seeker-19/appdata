@@ -1,8 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import anuragpic from "./images/anurag.jpg";
-import { Link } from "react-router-dom";
+import aboutpic from "./images/aboutpic.png";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
+  const history = useNavigate();
+  const [userData, setUserData] = useState({});
+
+  const callAboutPage = async () => {
+    try {
+      /*&const res = await fetch("/about", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });*/
+      axios({
+        url: "http://localhost:7000/about",
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        withCredentials: true,
+      })
+        .then((res) => {
+          const data = res.data;
+          console.log(data);
+          setUserData(data);
+          //console.log(res.response.status);
+
+          if (!res.status === 200) {
+            const error = new Error(res.error);
+            throw error;
+          }
+        })
+        .catch((err) => console.log(err));
+    } catch (err) {
+      console.log(err);
+      history("/login");
+    }
+  };
+
+  useEffect(() => {
+    callAboutPage();
+  }, []);
   return (
     /*<div>
       <p>WELCOME</p>
@@ -14,7 +59,10 @@ const Home = () => {
           <div className="row">
             <div className="col-md-4">
               <div className="profile-img">
-                <img src={anuragpic} alt="anurag" />
+                <img
+                  src={userData.name === "anurag" ? anuragpic : aboutpic}
+                  alt="anurag"
+                />
               </div>
             </div>
             <div className="col-md-6">

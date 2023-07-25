@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import anuragpic from "./images/anurag.jpg";
+import aboutpic from "./images/aboutpic.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const About = () => {
   const history = useNavigate();
+  const [userData, setUserData] = useState({});
+
   const callAboutPage = async () => {
     try {
       /*&const res = await fetch("/about", {
@@ -19,13 +22,15 @@ const About = () => {
         url: "http://localhost:7000/about",
         method: "GET",
         headers: {
+          Accept: "application/json",
           "Content-type": "application/json",
         },
-        credentials: "include",
+        withCredentials: true,
       })
         .then((res) => {
           const data = res.data;
           console.log(data);
+          setUserData(data);
           //console.log(res.response.status);
 
           if (!res.status === 200) {
@@ -55,13 +60,16 @@ const About = () => {
           <div className="row">
             <div className="col-md-4">
               <div className="profile-img">
-                <img src={anuragpic} alt="anurag" />
+                <img
+                  src={userData.name === "anurag" ? anuragpic : aboutpic}
+                  alt="anurag"
+                />
               </div>
             </div>
             <div className="col-md-6">
               <div className="profile-head">
-                <h5>Anurag Kanswal</h5>
-                <h6>Web Developer</h6>
+                <h5>{userData.name}</h5>
+                <h6>{userData.work}</h6>
                 <p className="profile-rating mt-3 mb-5">
                   RANKINGS: <span>1/10</span>
                 </p>
@@ -166,7 +174,7 @@ const About = () => {
                       <p>Name</p>
                     </div>
                     <div className="col-md-6">
-                      <p>Anurag Kanswal</p>
+                      <p>{userData.name}</p>
                     </div>
                   </div>
                   <div className="row mt-4">
@@ -174,7 +182,7 @@ const About = () => {
                       <p>Email</p>
                     </div>
                     <div className="col-md-6">
-                      <p>kanswalanurag123@gmail.com</p>
+                      <p>{userData.email}</p>
                     </div>
                   </div>
                   <div className="row mt-4">
@@ -182,7 +190,7 @@ const About = () => {
                       <p>Phone</p>
                     </div>
                     <div className="col-md-6">
-                      <p>+91 8439711800</p>
+                      <p>{userData.phone}</p>
                     </div>
                   </div>
                   <div className="row mt-4">
@@ -190,7 +198,7 @@ const About = () => {
                       <p>Domain</p>
                     </div>
                     <div className="col-md-6">
-                      <p>Web Developer</p>
+                      <p></p>
                     </div>
                   </div>
                 </div>

@@ -145,4 +145,10 @@ router.get("/about", authenticate, (req, res) => {
   res.send(req.rootUser);
 });
 
+router.get("/getdata", authenticate, (req, res) => {
+  console.log("Hello my about");
+  // res.send("Hello About world from the server.");
+  res.send(req.rootUser);
+});
+
 module.exports = router;

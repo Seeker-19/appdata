@@ -1,7 +1,59 @@
-import React from "react";
-import phone from "./images/iphone.jpg";
+import React, { useEffect, useState } from "react";
+//import phone from "./images/iphone.jpg";
+import axios from "axios";
 
 const Home = () => {
+  //const history = useNavigate();
+  const [userData, setUserData] = useState({});
+
+  const userContact = async () => {
+    try {
+      /*&const res = await fetch("/about", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });*/
+      axios({
+        url: "http://localhost:7000/getdata",
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+        .then((res) => {
+          const data = res.data;
+          console.log(data);
+          setUserData(data);
+          //console.log(res.response.status);
+
+          if (!res.status === 200) {
+            const error = new Error(res.error);
+            throw error;
+          }
+        })
+        .catch((err) => console.log(err));
+    } catch (err) {
+      console.log(err);
+      //history("/login");
+    }
+  };
+
+  useEffect(() => {
+    userContact();
+  }, []);
+
+  //we are storing data in states
+
+  const handleInputs = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setUserData({ ...userData, name: userData.name, email: userData.email });
+  };
+
   return (
     /* <div>
       <p>WELCOME</p>
@@ -68,20 +120,26 @@ const Home = () => {
                       id="contact_form_name"
                       className="contact_form_name input_field"
                       placeholder="Your name"
+                      value={userData.name}
+                      onChange={handleInputs}
                       required="true"
                     />
                     <input
                       type="email"
                       id="contact_form_email"
+                      value={userData.email}
                       className="contact_form_email input_field"
                       placeholder="Your Email"
+                      onChange={handleInputs}
                       required="true"
                     />
                     <input
                       type="number"
                       id="contact_form_phone"
+                      value={userData.phone}
                       className="contact_form_phone input_field"
                       placeholder="Your Phone Number"
+                      onChange={handleInputs}
                       required="true"
                     />
                   </div>
@@ -90,6 +148,8 @@ const Home = () => {
                     <textarea
                       className="text_field contact_form_message"
                       placeholder="Meassage"
+                      value={userData.message}
+                      onChange={handleInputs}
                       cols="30"
                     ></textarea>
                   </div>

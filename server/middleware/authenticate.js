@@ -1,14 +1,23 @@
 const jwt = require("jsonwebtoken");
-const User = require("../db/conn");
+const User = require("../model/userSchema");
 
 const Authenticate = async (req, res, next) => {
   try {
-    const token = req.cookies.jwtoken;
+    // const token = req.cookies.jwtoken;
+
+    const cookies = req?.headers?.cookie.split("");
+    let cookiesObj = {};
+    cookies?.forEach((element) => {
+      const cookie = element.split("=");
+      cookiesObj[cookie[0]] = cookie[1];
+    });
+    const token = cookiesObj["jwtoken"];
+
     const verifyToken = jwt.verify(token, process.env.SECRET_KEY);
 
     const rootUser = await User.findOne({
       _id: verifyToken._id,
-      "token.token": token,
+      "tokens.token": token,
     });
 
     if (!rootUser) {
